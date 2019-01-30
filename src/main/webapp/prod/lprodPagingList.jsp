@@ -51,6 +51,39 @@
               
               </tbody>
             </table>
+            
+            <%
+            	int lprodCnt = (Integer)request.getAttribute("lprodCnt");
+            	int pageSize = (Integer)request.getAttribute("pageSize");
+            	int cPage 	 = (Integer)request.getAttribute("page");
+            	int lastPage = lprodCnt/pageSize + (lprodCnt%pageSize > 0 ? 1 : 0);
+            	String cp = request.getContextPath();
+            %>
+		<nav style="text-align: center">
+			<ul class="pagination">
+				<%if(cPage == 1){ %>
+					<li class="disabled">
+						<a aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+					</li>
+				<%} else { %>
+					<li>
+						<a href="<%=cp%>/lprodPagingList" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+					</li>
+				<%} %>
+	
+				<%for(int i = 1; i <= lastPage; i++){ %>
+					<li <%if(i == cPage){ %> 
+							class="active" 
+						<%} %>>
+						<a href="<%=cp%>/lprodPagingList?page=<%=i%>"><%=i%></a>
+					</li>
+				<%} %>
+				<li>
+					<a href="<%=cp%>/lprodPagingList?page=<%=lastPage%>"aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+				</li>
+			</ul>
+		</nav>
+            
 	</div>
 
     <!-- Bootstrap core JavaScript

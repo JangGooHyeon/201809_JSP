@@ -9,4 +9,19 @@
   	  from lprod
   </select>
   
+  <select id="selectLprodPagingList" resultType="lprodVo" parameterType="pageVo">
+	select *
+	  from
+	    (select a.*, rownum  rn
+	       from (select lprod.*
+	               from  lprod 
+	             order by lprod_id) a) a
+	where rn between (#{page}-1) * #{pageSize}+1 and #{page} * #{pageSize}
+  </select>
+  
+  <select id="getLprodCnt" resultType="Integer">
+	select count(*)
+	  from lprod
+  </select>
+  
 </mapper>

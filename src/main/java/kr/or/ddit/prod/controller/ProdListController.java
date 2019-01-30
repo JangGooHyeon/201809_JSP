@@ -27,7 +27,7 @@ public class ProdListController extends HttpServlet {
 		String prod_lgu = request.getParameter("lprodgu");
 		List<ProdVo> list = prodService.selectLprod(prod_lgu);
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/prod/prod.jsp").forward(request, response);
+		request.getRequestDispatcher("/prod/prodList.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

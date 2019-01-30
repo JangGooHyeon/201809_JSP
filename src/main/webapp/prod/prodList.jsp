@@ -40,7 +40,7 @@
               <tbody>
               
               <% 
-	              List<ProdVo> list = (List<ProdVo>)request.getAttribute("prodList");
+	              List<ProdVo> list = (List<ProdVo>)request.getAttribute("list");
 	              for(int i=0; i<list.size(); i++){ %>
 	              	<tr>
 	              	<% 

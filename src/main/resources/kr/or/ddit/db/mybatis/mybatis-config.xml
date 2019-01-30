@@ -9,6 +9,7 @@
   	<typeAlias alias="userVo" type="kr.or.ddit.user.model.UserVo"/>
   	<typeAlias alias="lprodVo" type="kr.or.ddit.prod.model.LprodVo"/>
   	<typeAlias alias="prodVo" type="kr.or.ddit.prod.model.ProdVo"/>
+  	<typeAlias alias="pageVo" type="kr.or.ddit.util.model.PageVo"/>
   </typeAliases>
 
 
