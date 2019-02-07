@@ -41,7 +41,6 @@
     <exception-type>java.lang.ArithmeticException</exception-type>
     <location>/error/type/arithmetic/error.jsp</location>
   </error-page>
-  
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/oracleDB</res-ref-name>
