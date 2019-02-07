@@ -1,6 +1,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+    <link href="${pageContext.servletContext.contextPath }/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -38,21 +40,18 @@
               </thead>
               <tbody>
               
-              <% 
-	              List<UserVo> list = (List<UserVo>)request.getAttribute("userList");
-    			  int cnt = 1;
-	              for(int i=0; i<list.size(); i++){ %>
-	              	<tr class="userTr" data-userid="<%=list.get(i).getUserId()%>">
-	              	<% 
-	              	out.write("<td>"+ cnt +"</td>");
-	              	out.write("<td>" + list.get(i).getUserId() + "</td>");
-	              	out.write("<td>" + list.get(i).getUserNm() + "</td>");
-	              	out.write("<td>-</td>");
-	              	out.write("<td>" + list.get(i).getReg_dt_fmt() + "</td>");
-	              	cnt++;
-	              	%>
-	              	</tr>
-              <%  }%>
+           	  <% List<UserVo> userList = (List<UserVo>)request.getAttribute("userList"); %>
+           	  <% int cnt = 1; %>
+              
+			<c:forEach items="${userList }" var="user">
+				<tr class="userTr" data-userId="${user.userId }">
+					<td><%=cnt++ %></td>
+					<td>${user.userId }</td>
+					<td>${user.userNm }</td>
+					<td>-</td>
+					<td><fmt:formatDate value="${user.reg_dt }" pattern="yyyy/MM/dd"/></td>
+				</tr>
+			</c:forEach>
               
               
               </tbody>
@@ -91,8 +90,21 @@
     	});
     	
     </script>
-    
-  <form id="frm" action="<%=request.getContextPath()%>/user" method="get">
+  
+  <%
+  	pageContext.getRequest().equals(request);
+  	pageContext.getSession().equals(session);
+  	
+  	request.getContextPath();
+  	((HttpServletRequest)pageContext.getRequest()).getContextPath();
+  	
+  	application.getContextPath();
+
+  	((HttpServletRequest)pageContext.getRequest()).getContextPath();
+  	pageContext.getServletContext().getContextPath();
+  %>
+  
+  <form id="frm" action="${pageContext.servletContext.contextPath }/user" method="get">
   	<input type="hidden" id="userId" name="userId" />
   </form>
   </body>

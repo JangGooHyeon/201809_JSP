@@ -1,6 +1,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+    <link href="${pageContext.servletContext.contextPath }/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -38,21 +40,18 @@
               </thead>
               <tbody>
               
-              <% 
-	              List<UserVo> list = (List<UserVo>)request.getAttribute("userList");
-    			  int cnt = 1;
-	              for(int i=0; i<list.size(); i++){ %>
-	              	<tr class="userTr" data-userid="<%=list.get(i).getUserId()%>">
-	              	<% 
-	              	out.write("<td>"+ cnt +"</td>");
-	              	out.write("<td>" + list.get(i).getUserId() + "</td>");
-	              	out.write("<td>" + list.get(i).getUserNm() + "</td>");
-	              	out.write("<td>-</td>");
-	              	out.write("<td>" + list.get(i).getReg_dt_fmt() + "</td>");
-	              	cnt++;
-	              	%>
-	              	</tr>
-              <%  }%>
+           	  <% List<UserVo> userList = (List<UserVo>)request.getAttribute("userList"); %>
+           	  <% int cnt = 1; %>
+              
+				<c:forEach items="${userList }" var="user">
+					<tr class="userTr" data-userId="${user.userId }">
+						<td><%=cnt++ %></td>
+						<td>${user.userId }</td>
+						<td>${user.userNm }</td>
+						<td>-</td>
+						<td><fmt:formatDate value="${user.reg_dt }" pattern="yyyy/MM/dd"/></td>
+					</tr>
+				</c:forEach>
               
               
               </tbody>
@@ -62,32 +61,56 @@
             	int userCnt  = (Integer)request.getAttribute("userCnt");
             	int pageSize = (Integer)request.getAttribute("pageSize");
             	int cPage = (Integer)request.getAttribute("page");
-            	int lastPage = userCnt/pageSize + (userCnt%pageSize > 0 ? 1 : 0);
             	String cp = request.getContextPath();
             %>
 
+		<c:set var="lastPage" value="${Integer(userCnt/pageSize + (userCnt%pageSize > 0 ? 1 : 0)) }"/>
+		
 		<nav style="text-align: center">
 			<ul class="pagination">
-				<%if(cPage == 1){ %>
-					<li class="disabled">
-						<a aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+			
+				<c:choose>
+					<c:when test="${page == 1 }">
+						<li class="disabled">
+							<a aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.servletContext.contextPath }/userPagingList" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+							
+				<c:forEach begin="1" end="${lastPage }" var="i">
+					<c:set var="active" value=""/>
+					<c:if test="${i == page }">
+						<c:set var="active" value="active"/>
+					</c:if> 
+					
+					<li class="${active }">
+						<a href="${pageContext.servletContext.contextPath }/userPagingList?page=${i }">${i }</a>
 					</li>
-				<%} else { %>
-					<li>
-						<a href="<%=cp%>/userPagingList" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-					</li>
-				<%} %>
-	
-				<%for(int i = 1; i <= lastPage; i++){ %>
-					<li <%if(i == cPage){ %> 
-							class="active" 
-						<%} %>>
-						<a href="<%=cp%>/userPagingList?page=<%=i%>"><%=i%></a>
-					</li>
-				<%} %>
-				<li>
-					<a href="<%=cp%>/userPagingList?page=<%=lastPage%>"aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-				</li>
+				</c:forEach>
+				
+				<c:choose>
+					<c:when test="${page == lastPage }">
+						<li class="disabled">
+							<a aria-label="Next"> 
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.servletContext.contextPath }/userPagingList?=${lastPage }" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a>
+						</li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</nav>
 	</div>
@@ -125,7 +148,7 @@
     	
     </script>
     
-  <form id="frm" action="<%=request.getContextPath()%>/user" method="get">
+  <form id="frm" action="${pageContext.servletContext.contextPath }/user" method="get">
   	<input type="hidden" id="userId" name="userId" />
   </form>
   </body>

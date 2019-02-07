@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+    <link href="${pageContext.servletContext.contextPath }/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -28,29 +29,25 @@
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<h1 class="page-header">제품 카테고리</h1>
 		<table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>분류 코드</th>
-                  <th>분류명</th>
-                </tr>
-              </thead>
-              <tbody>
-              
-              <% 
-	              List<LprodVo> list = (List<LprodVo>)request.getAttribute("lprodList");
-	              for(int i=0; i<list.size(); i++){ %>
-	              	<tr class="lprodTr" data-lprodgu="<%=list.get(i).getLprod_gu()%>">
-	              	<% 
-		              	out.write("<td>" + list.get(i).getLprod_id()+ "</td>");
-		              	out.write("<td>" + list.get(i).getLprod_gu()+ "</td>");
-		              	out.write("<td>" + list.get(i).getLprod_nm() + "</td>");
-	              	%>
-	              	</tr>
-              <%  }%>
-              
-              </tbody>
-            </table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>분류 코드</th>
+					<th>분류명</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%List<LprodVo> list = (List<LprodVo>) request.getAttribute("lprodList"); %>
+				<c:forEach items="${lprodList }" var="lprod">
+					<tr class="lprodTr" data-lprodgu="${lprod.lprod_gu }">
+						<td>${lprod.lprod_id }</td>
+						<td>${lprod.lprod_gu }</td>
+						<td>${lprod.lprod_nm }</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+
 	</div>
 
     <!-- Bootstrap core JavaScript
@@ -85,7 +82,7 @@
     
     
     
-  <form id="frm" action="<%=request.getContextPath()%>/prodList" method="get">
+  <form id="frm" action="${pageContext.servletContext.contextPath }/prodList" method="get">
   	<input type="hidden" id="lprodgu" name="lprodgu" />
   </form>
   </body>
