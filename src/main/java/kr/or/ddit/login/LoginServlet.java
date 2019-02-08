@@ -1,9 +1,7 @@
 package kr.or.ddit.login;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.naming.ldap.Rdn;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +33,9 @@ public class LoginServlet extends HttpServlet {
 	// 웹 브라우저 주소줄에 localhost/login url을 입력하여 요청하는 경우에 해당
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+//		Map<String, String[]> paramMap = request.getParameterMap();
+//		paramMap.put("temp", new String[]{"123", "456"});
+		
 		// login/login.jsp로 request dispatch forword
 		RequestDispatcher rd = request.getRequestDispatcher("/login/login.jsp");
 		rd.forward(request, response);
