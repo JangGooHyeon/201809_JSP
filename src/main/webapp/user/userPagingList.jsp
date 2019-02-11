@@ -47,6 +47,8 @@
 					<tr class="userTr" data-userId="${user.userId }">
 						<td><%=cnt++ %></td>
 						<td>${user.userId }</td>
+						<td>${user.getUserId() }</td>
+						
 						<td>${user.userNm }</td>
 						<td>-</td>
 						<td><fmt:formatDate value="${user.reg_dt }" pattern="yyyy/MM/dd"/></td>
@@ -56,6 +58,10 @@
               
               </tbody>
             </table>
+            
+            <form action="${pageContextPath.request.contextPath }/userForm" method="get">
+	            <button type="submit" class="btn btn-default">사용자등록</button>
+            </form>
             
             <%
             	int userCnt  = (Integer)request.getAttribute("userCnt");

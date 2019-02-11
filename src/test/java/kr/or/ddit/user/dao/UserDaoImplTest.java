@@ -4,28 +4,40 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import kr.or.ddit.db.mybatis.MybatisSqlSessionFactory;
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.util.model.PageVo;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class UserDaoImplTest {
 	
-	IUserDao dao = new UserDaoImpl();
+	private IUserDao dao;
+	private SqlSession sqlSession;
 	
 	@Before
 	public void setup(){
 		dao = new UserDaoImpl();
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		sqlSession = sqlSessionFactory.openSession();
 	}
+	
+	@After
+	public void testDown(){
+		sqlSession.close();
+	}
+	
 	
 	@Test
 	public void testGetAllUser() {
 		/***Given***/
-		IUserDao dao = new UserDaoImpl();
 		
 		/***When***/
-		List<UserVo> list = dao.getAllUser();
+		List<UserVo> list = dao.getAllUser(sqlSession);
 //		for(UserVo userVo : list){
 //			System.out.println(userVo);
 //		}
@@ -42,7 +54,7 @@ public class UserDaoImplTest {
 		IUserDao dao = new UserDaoImpl();
 		
 		/***When***/
-		UserVo vo = dao.selectUser("cony");
+		UserVo vo = dao.selectUser(sqlSession, "cony");
 //		System.out.println(vo.getPass());
 		
 		/***Then***/
@@ -55,7 +67,7 @@ public class UserDaoImplTest {
 		PageVo vo = new PageVo(1, 10);
 		
 		/***When***/
-		List<UserVo> list = dao.selectUserPagingList(vo);
+		List<UserVo> list = dao.selectUserPagingList(sqlSession, vo);
 		for(int i=0; i<list.size(); i++) {
 			System.out.println("page 1 -> " + list.get(i).getUserId());
 		}
@@ -76,7 +88,7 @@ public class UserDaoImplTest {
 		/***Given***/
 		
 		/***When***/
-		int cnt = dao.getUserCnt();
+		int cnt = dao.getUserCnt(sqlSession);
 		System.out.println("전체 사용자 수 : " + cnt);
 		
 		/***Then***/
@@ -112,6 +124,73 @@ public class UserDaoImplTest {
 		
 		/***Then***/
 		assertEquals(11, lastPage);
+	}
+	
+	@Test
+	public void testInsertUser(){
+		/***Given***/
+		String userId = "goo7451";
+		String userNm = "장구현";
+		String alias = "짱구";
+		String addr1 = "경북 김천시 시청2길 30";
+		String addr2 = "금류아파트 2동 1402호";
+		String zipcode = "39531";
+		String pass = "testpass1234";
+		
+		/***When***/
+		UserVo vo = new UserVo();
+		vo.setUserId(userId);
+		vo.setUserNm(userNm);
+		vo.setAlias(alias);
+		vo.setAddr1(addr1);
+		vo.setAddr2(addr2);
+		vo.setZipcode(zipcode);
+		vo.setPass(pass);
+		
+		int cnt = dao.insertUser(sqlSession, vo);
+		System.out.println(cnt);
+		
+		/***Then***/
+		assertEquals(cnt, 1);
+		
+	}
+	
+	@Test
+	public void testDeleteUser(){
+		/***Given***/
+		String userId = "goo7451";
+		
+		/***When***/
+		int cnt = dao.deleteUser(sqlSession, userId);
+		System.out.println(cnt);
+		
+		/***Then***/
+		assertEquals(cnt, 1);
+	}
+	
+	@Test
+	public void testUpdateUser(){
+		/***Given***/
+		String userId = "1234";
+		
+		UserVo vo = dao.selectUser(sqlSession, userId);
+		
+		vo.setUserNm("qwe1");
+		vo.setAlias("qwe2");
+		vo.setAddr1("qwe3");
+		vo.setAddr2("qwe4");
+		vo.setZipcode("12345");
+		vo.setPass("qwe123");
+		
+		/***When***/
+		int updateCnt = dao.updateUser(sqlSession, vo);
+		sqlSession.commit();
+		
+		System.out.println(updateCnt);
+		
+		/***Then***/
+		assertEquals(updateCnt, 1);
+
 	}
 
 }

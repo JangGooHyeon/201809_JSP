@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import kr.or.ddit.db.mybatis.MybatisSqlSessionFactory;
 import kr.or.ddit.user.dao.IUserDao;
 import kr.or.ddit.user.dao.UserDaoImpl;
 import kr.or.ddit.user.model.UserVo;
@@ -26,7 +30,13 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public List<UserVo> getAllUser() {
-		return dao.getAllUser();
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<UserVo> userList = dao.getAllUser(sqlSession);
+		
+		sqlSession.close();
+		
+		return userList;
 	}
 
 	/**
@@ -39,7 +49,13 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public UserVo selectUser(String userId) {
-		return dao.selectUser(userId);
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserVo userVo = dao.selectUser(sqlSession, userId);
+		
+		sqlSession.close();
+		
+		return userVo;
 	}
 
 	/**
@@ -52,13 +68,80 @@ public class UserServiceImpl implements IUserService {
 	 */
 	@Override
 	public Map<String, Object> selectUserPagingList(PageVo pageVo) {
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		resultMap.put("userList", dao.selectUserPagingList(pageVo));
-		resultMap.put("userCnt", dao.getUserCnt());
+		resultMap.put("userList", dao.selectUserPagingList(sqlSession, pageVo));
+		resultMap.put("userCnt", dao.getUserCnt(sqlSession));
+		
+		sqlSession.close();
 		
 		return resultMap;
 	}
 
+	/**
+	 * Method : insertUser
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 등록
+	 */
+	@Override
+	public int insertUser(UserVo userVo) {
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		int cnt = dao.insertUser(sqlSession, userVo);
+		
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return cnt;
+	}
 	
+	/**
+	 * Method : updateUser
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 정보 수정
+	 */
+	@Override
+	public int updateUser(UserVo userVo) {
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		int cnt = dao.updateUser(sqlSession, userVo);
+		
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return cnt;
+	}
+
+	/**
+	 * Method : deleteUser
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param userId
+	 * @return
+	 * Method 설명 : 사용자 삭제
+	 */
+	@Override
+	public int deleteUser(String userId) {
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		int cnt = dao.deleteUser(sqlSession, userId);
+		
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return cnt;
+	}
+
 }
