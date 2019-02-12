@@ -8,7 +8,7 @@
 		</layout>
 	</appender>
 
-	<logger name="kr.or.ddit" level="error"/>
+	<logger name="kr.or.ddit" level="DEBUG"/>
 	
     
 	<root level="DEBUG">

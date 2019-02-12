@@ -4,19 +4,35 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UserVo {
-	private String userId;		//사용자 아이디
-	private String pass;		//사용자 비밀번호
-	private String userNm;		//사용자 이름
-	private String alias; 		//별명
-	private String addr1;		//주소
-	private String addr2;		//상세주소
-	private String zipcode;		//우편번호
-	private Date   reg_dt;		//등록일시
+	private String userId;			//사용자 아이디
+	private String pass;			//사용자 비밀번호
+	private String userNm;			//사용자 이름
+	private String alias; 			//별명
+	private String addr1;			//주소
+	private String addr2;			//상세주소
+	private String zipcode;			//우편번호
+	private String fileName;		//파일명
+	private String realFileName;	//배포경로
+	private Date   reg_dt;			//등록일시
 	
 	public String getReg_dt_fmt(){
 		//reg_dt값을 yyyy-mm-dd형태로 포맷팅
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(reg_dt);
+	}
+	
+	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getRealFileName() {
+		return realFileName;
+	}
+	public void setRealFileName(String realFileName) {
+		this.realFileName = realFileName;
 	}
 	public String getUserId() {
 		return userId;
@@ -69,9 +85,9 @@ public class UserVo {
 	@Override
 	public String toString() {
 		return "UserVo [userId=" + userId + ", pass=" + pass + ", userNm="
-				+ userNm + ", reg_dt=" + reg_dt + ", alias=" + alias
-				+ ", addr1=" + addr1 + ", addr2=" + addr2 + ", zipcode="
-				+ zipcode + "]";
+				+ userNm + ", alias=" + alias + ", addr1=" + addr1 + ", addr2="
+				+ addr2 + ", zipcode=" + zipcode + ", fileName=" + fileName
+				+ ", realFileName=" + realFileName + ", reg_dt=" + reg_dt + "]";
 	}
 	
 }

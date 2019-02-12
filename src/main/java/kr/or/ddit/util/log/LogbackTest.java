@@ -1,5 +1,8 @@
 package kr.or.ddit.util.log;
 
+//simple logging facade a java
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +28,7 @@ public class LogbackTest {
 		// ==============================================
 		
 		logger.error("error " + "error");
-		logger.error("error {}, {}, {}", "test1", "test2", "test3");
+		logger.error("error {}, {}, {}", "test1", "test2", new HashMap<>());
 	}
 	
 	public static void main(String[] args) {

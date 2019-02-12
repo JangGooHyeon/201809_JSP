@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.or.ddit.util.CookieUtil;
+import kr.or.ddit.util.PartUtil;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,4 +37,26 @@ public class UtilTest {
 		
 	}
 
+	/**
+	 * Method : testGetFileNameFromPart
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * Method 설명 : part의 Content-Disposition 헤더로 부터 filename을 가져온다.
+	 */
+	@Test
+	public void testGetFileNameFromPart(){
+		/***Given***/
+		String contentDisposition = "form-data; name=\"uploadFile\"; filename=\"cogi.jpg\"";
+		String contentDisposition2 = "form-data; name=\"uploadFile\"; filename=\"cogis.jpg\"";
+		
+		/***When***/
+		String fileName = PartUtil.getFileNameFromPart(contentDisposition);
+		String fileName2 = PartUtil.getFileNameFromPart(contentDisposition2);
+		
+		/***Then***/
+		assertEquals("cogi.jpg", fileName);
+		assertEquals("cogis.jpg", fileName2);
+
+	}
+	
 }
