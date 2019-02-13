@@ -2,19 +2,24 @@ package kr.or.ddit.user.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.servlet.jsp.PageContext;
 
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.service.IUserService;
 import kr.or.ddit.user.service.UserServiceImpl;
+import kr.or.ddit.util.PartUtil;
 
 @WebServlet("/userForm")
+@MultipartConfig(maxFileSize=5 * 1024 * 1024, maxRequestSize=5 * 5 * 1024 * 1024)
 public class UserFormController extends HttpServlet {
 	
 	private IUserService userService;
@@ -53,15 +58,40 @@ public class UserFormController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String userId  = request.getParameter("userId");
-		String userNm  = request.getParameter("userNm");
-		String alias   = request.getParameter("alias");
-		String addr1   = request.getParameter("addr1");
-		String addr2   = request.getParameter("addr2");
-		String zipcode = request.getParameter("zipcode");
-		String pass	   = request.getParameter("pass");
-
+		String userId  		= request.getParameter("userId");
+		String userNm  		= request.getParameter("userNm");
+		String alias   		= request.getParameter("alias");
+		String addr1   		= request.getParameter("addr1");
+		String addr2   		= request.getParameter("addr2");
+		String zipcode 		= request.getParameter("zipcode");
+		String pass	   		= request.getParameter("pass");
+		
+		String fileName 	= "";
+		String realFileName = "";
+		
 		UserVo vo = userService.selectUser(userId);
+		
+		//사용자 사진
+		Part profilePart = request.getPart("profile");
+
+		//사용자가 사진을 올린 경우
+		if(profilePart.getSize() > 0){
+			//사용자 테이블에 파일명을 저장(실제 업로드 파일명(fileName), 파일 충돌을 방지하기 위한 uuid(realFileName))
+			String contentDisposition = profilePart.getHeader("Content-Disposition");
+			
+			fileName = PartUtil.getFileNameFromPart(contentDisposition);
+			realFileName = "c:\\picture\\" + UUID.randomUUID().toString();
+			
+			//디스크에 기록(c:\picture\ + realFileName)
+			profilePart.write(realFileName);
+		}
+		//사용자가 사진을 올리지 않은 경우
+		else {
+			//공백처리
+			fileName = "";
+			realFileName = "";
+		}
+		
 		
 		//1. 사용자 아이디 중복체크
 		
@@ -76,6 +106,8 @@ public class UserFormController extends HttpServlet {
 			userVo.setAddr2(addr2);
 			userVo.setZipcode(zipcode);
 			userVo.setPass(pass);
+			userVo.setFileName(fileName);
+			userVo.setRealFileName(realFileName);
 			
 			int insertCnt = userService.insertUser(userVo);
 			

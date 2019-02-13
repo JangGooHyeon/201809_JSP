@@ -10,7 +10,7 @@
 <body>
 
 <form action="${pageContext.request.contextPath }/fileUpload" method="post" enctype="multipart/form-data">
-
+<!-- form tag enctype 설정 : enctype=multipart/form-data" -->
 	<input type="text" name="userId" value="${userVo.userId }"/><br>
 	<input type="file" name="uploadFile" value="${userVo.fileName }"/><br>
 	<input type="submit" value="전송"/>

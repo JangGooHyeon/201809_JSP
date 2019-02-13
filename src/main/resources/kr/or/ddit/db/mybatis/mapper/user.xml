@@ -34,19 +34,21 @@
   
 <!--   사용자 입력 -->
   <insert id="insertUser" parameterType="userVo">
-  	insert into users(userid, usernm, alias, addr1, addr2, zipcode, pass, reg_dt)
-	values(#{userId}, #{userNm}, #{alias}, #{addr1}, #{addr2}, #{zipcode}, #{pass}, sysdate)
+  	insert into users(userid, usernm, alias, addr1, addr2, zipcode, pass, filename, realfilename, reg_dt)
+	values(#{userId}, #{userNm}, #{alias}, #{addr1}, #{addr2}, #{zipcode}, #{pass}, #{fileName}, #{realFileName}, sysdate)
   </insert>
   
 <!--   사용자 수정 -->
   <update id="updateUser" parameterType="userVo">
   	update users
-  	   set usernm 	= #{userNm},
-  	   	   pass 	= #{pass},
-  	   	   alias 	= #{alias},
-  	   	   addr1 	= #{addr1},
-  	   	   addr2 	= #{addr2},
-  	   	   zipcode  = #{zipcode}
+  	   set usernm	 	= #{userNm},
+  	   	   pass 		= #{pass},
+  	   	   alias	 	= #{alias},
+  	   	   addr1 		= #{addr1},
+  	   	   addr2	 	= #{addr2},
+  	   	   zipcode		= #{zipcode},
+  	   	   filename 	= nvl(#{fileName, jdbcType=VARCHAR}, filename),
+  	   	   realfilename = nvl(#{realFileName, jdbcType=VARCHAR}, realfilename)
   	 where userid = #{userId}
   </update>
   

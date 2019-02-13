@@ -29,8 +29,15 @@
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<h1 class="page-header">사용자 정보 조회</h1>
 		
-		<form id="frm" action="${pageContextPath.request.contextPath }/userForm" method="post" class="form-horizontal" role="form">
-	
+		<form id="frm" action="${pageContextPath.request.contextPath }/userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+
+			<div class="form-group">
+				<label for="userNm" class="col-sm-2 control-label">프로필 사진</label>
+				<div class="col-sm-4">
+					<input type="file" class="form-control" id="profile" name="profile" placeholder="프로필 사진">
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label for="userNm" class="col-sm-2 control-label">사용자 아이디</label>
 				<div class="col-sm-4">
@@ -128,16 +135,10 @@
 // 				alert("${msg}");
 // 			}
 			
-			//msg 속성이 존재하면 alert, 존재하지 않으면 넘어가기
-			<c:if test="${requestScope.msg != null}">
-				alert("${requestScope.msg}");
-				<%session.removeAttribute("msg"); %>
-			</c:if>
-			
-			//server side에서 비교
-			<c:if test="${msg != ''}">
-				alert("${msg}");
-			</c:if>
+         	//server side 에서 비교
+            <c:if test="${requestScope.msg != null}">
+               alert("${requestScope.msg}");
+            </c:if>
 			
 			//우편번호 검색 버튼 클릭 이벤트 : 다음 조소검색 팝업창 open
 			$("#zipcodeBtn").on("click", function(){

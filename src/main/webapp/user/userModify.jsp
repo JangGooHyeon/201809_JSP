@@ -29,8 +29,16 @@
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<h1 class="page-header">사용자 정보 조회</h1>
 		
-		<form id="frm" action="${pageContextPath.request.contextPath }/userModifyForm" method="post" class="form-horizontal" role="form">
+		<form id="frm" action="${pageContextPath.request.contextPath }/userModifyForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 	
+			<div class="form-group">
+				<label for="userNm" class="col-sm-2 control-label">프로필 사진</label>
+				<div class="col-sm-4">
+					<img src=""/>
+					<input type="file" class="form-control" id="profile" name="profile" placeholder="프로필 사진">
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label for="userNm" class="col-sm-2 control-label">사용자 아이디</label>
 				<div class="col-sm-4">
@@ -108,14 +116,11 @@
 			$("#addr2").val("${userVo.addr2}");
 			$("#zipcode").val("${userVo.zipcode}");
 			$("#pass").val("${userVo.pass}");
+			$("img").attr("src", "${pageContext.request.contextPath}/profileImg?userId=${userVo.userId }");
 		}
     	
     	$(document).ready(function(){
     		initData();
-    		
-//     		if("${msg}" != ""){
-//     			alert("${msg}");
-//     		}
     		
     		$("#zipcodeBtn").on("click", function(){
 			    new daum.Postcode({

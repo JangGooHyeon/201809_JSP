@@ -24,8 +24,14 @@ import org.slf4j.Logger;
 // 5MB = 5 * 1MB
 // 1MB = 1024KB
 // 1KB = 1024BYTE
-// MultipartConfig를 설정해야 파일 업로드가 가능하다.(maxFileSize는 byte단위의 파일 용량, maxRequestSize는 갯수?)
 
+//파일 업로드
+// 1. form tag enctype 설정 : enctype=multipart/form-data"
+// 2. @MultipartConfig (maxFileSize, maxRequestSize)
+
+// MultipartConfig를 설정해야 파일 업로드가 가능하다.
+// maxFileSize 	  : byte단위의 파일 용량(파일의 최대 사이즈)
+// maxRequestSize : 전성되는 request의 최대 사이즈 (file + formData)
 @WebServlet("/fileUpload")
 @MultipartConfig(maxFileSize=5 * 1024 * 1024, maxRequestSize=5 * 5 * 1024 * 1024)
 public class FileUploadServlet extends HttpServlet {
