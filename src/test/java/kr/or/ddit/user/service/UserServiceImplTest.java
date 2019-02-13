@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.ddit.db.mybatis.MybatisSqlSessionFactory;
+import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.user.dao.UserDaoImpl;
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.util.model.PageVo;
@@ -16,9 +17,12 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserServiceImplTest {
 
+	private Logger logger = LoggerFactory.getLogger(UserServiceImplTest.class);
 	private IUserService userService;
 	
 	@Before
@@ -146,6 +150,29 @@ public class UserServiceImplTest {
 		/***Then***/
 		assertEquals(updateCnt, 1);
 
+	}
+	
+	@Test
+	public void testUpdateUserPass(){
+		/***Given***/
+		List<UserVo> list = userService.getAllUser();
+		UserVo vo = new UserVo();
+		String pass = "";
+		
+		int cnt = 0;
+		
+		/***When***/
+		for(int i=0; i<list.size(); i++){
+			pass = KISA_SHA256.encrypt(list.get(i).getPass());
+			vo.setUserId(list.get(i).getUserId());
+			vo.setPass(pass);
+			
+			cnt += userService.updateUserPass(vo);
+		}
+		
+		/***Then***/
+		assertEquals(108, cnt);
+		
 	}
 	
 }

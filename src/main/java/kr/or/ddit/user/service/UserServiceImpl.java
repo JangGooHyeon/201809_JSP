@@ -124,6 +124,27 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	/**
+	 * Method : updateUserPass
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 비밀번호 암호화 작업
+	 */
+	@Override
+	public int updateUserPass(UserVo userVo) {
+		SqlSessionFactory sqlSessionFactory = MybatisSqlSessionFactory.getSqlSessionFactory();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		
+		int cnt = dao.updateUserPass(sqlSession, userVo);
+		
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return cnt;
+	}
+	
+	/**
 	 * Method : deleteUser
 	 * 작성자 : goo84
 	 * 변경이력 :
@@ -143,5 +164,6 @@ public class UserServiceImpl implements IUserService {
 		
 		return cnt;
 	}
+
 
 }

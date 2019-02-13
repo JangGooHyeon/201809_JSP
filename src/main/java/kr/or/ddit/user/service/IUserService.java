@@ -49,6 +49,16 @@ public interface IUserService {
 	int updateUser(UserVo userVo);
 	
 	/**
+	 * Method : updateUserPass
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 비밀번호 암호화 작업
+	 */
+	int updateUserPass(UserVo userVo);
+	
+	/**
 	 * Method : deleteUser
 	 * 작성자 : goo84
 	 * 변경이력 :

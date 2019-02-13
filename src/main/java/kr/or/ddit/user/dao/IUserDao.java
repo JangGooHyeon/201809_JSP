@@ -61,6 +61,17 @@ public interface IUserDao {
 	int updateUser(SqlSession sqlSession, UserVo userVo);
 	
 	/**
+	 * Method : updateUserPass
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param sqlSession
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 비밀번호 암호화 작업
+	 */
+	int updateUserPass(SqlSession sqlSession, UserVo userVo);
+	
+	/**
 	 * Method : deleteUser
 	 * 작성자 : goo84
 	 * 변경이력 :

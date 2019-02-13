@@ -52,6 +52,13 @@
   	 where userid = #{userId}
   </update>
   
+<!--  사용자 비밀번호 암호화 -->
+  <update id="updateUserPass" parameterType="userVo">
+  	update users
+  	   set pass = #{pass}
+  	 where userid = #{userId}
+  </update>
+  
 <!--   사용자 삭제 -->
   <delete id="deleteUser" parameterType="String">
   	delete from users

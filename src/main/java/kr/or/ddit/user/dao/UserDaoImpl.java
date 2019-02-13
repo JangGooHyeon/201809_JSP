@@ -84,6 +84,21 @@ public class UserDaoImpl implements IUserDao{
 		int cnt = sqlSession.update("user.updateUser", userVo);
 		return cnt;
 	}
+	
+	/**
+	 * Method : updateUserPass
+	 * 작성자 : goo84
+	 * 변경이력 :
+	 * @param sqlSession
+	 * @param userVo
+	 * @return
+	 * Method 설명 : 사용자 비밀번호 암호화 작업
+	 */
+	@Override
+	public int updateUserPass(SqlSession sqlSession, UserVo userVo) {
+		int cnt = sqlSession.update("user.updateUserPass", userVo);
+		return cnt;
+	}
 
 	/**
 	 * Method : deleteUser
@@ -98,4 +113,6 @@ public class UserDaoImpl implements IUserDao{
 		int cnt = sqlSession.delete("user.deleteUser", userId);
 		return cnt;
 	}
+
+	
 }
