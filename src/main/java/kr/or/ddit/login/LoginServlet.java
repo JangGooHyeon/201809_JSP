@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.or.ddit.encrypt.kisa.sha256.KISA_SHA256;
 import kr.or.ddit.user.model.UserVo;
 import kr.or.ddit.user.service.IUserService;
 import kr.or.ddit.user.service.UserServiceImpl;
@@ -53,10 +54,12 @@ public class LoginServlet extends HttpServlet {
 		
 		//DB에서 userId에 해당하는 사용자 정보를 조회
 		UserVo userVo = userService.selectUser(userId);
+		
+		
 		//mybatis로 수정
 		
 		//DB의 정보와 사용자 파라미터 정보가 일치하는 경우	  -->> main.jsp로 이동
-		if(userVo.getUserId().equals(userId) && userVo.getPass().equals(password)){
+		if(userVo.getUserId().equals(userId) && userVo.getPass().equals(KISA_SHA256.encrypt(password))){
 			
 			//사용자 정보를 session애 저장한다.
 			//userVo객체는 session이 유지될 동안 다른 페이지나 servlet에서 사용할 수 있다.
