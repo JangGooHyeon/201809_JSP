@@ -64,7 +64,7 @@ public class UserServiceImplTest {
 	@Test
 	public void testSelectUserPagingList(){
 		/***Given***/
-		PageVo vo = new PageVo(2, 10);
+		PageVo vo = new PageVo(1, 10);
 		
 		/***When***/
 		Map<String, Object> resultMap = userService.selectUserPagingList(vo);
