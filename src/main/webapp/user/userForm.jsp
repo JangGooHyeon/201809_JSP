@@ -20,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+    <link href="${cp }/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -29,7 +29,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<h1 class="page-header">사용자 정보 조회</h1>
 		
-		<form id="frm" action="${pageContextPath.request.contextPath }/userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+		<form id="frm" action="${cp }/userForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 
 			<div class="form-group">
 				<label for="userNm" class="col-sm-2 control-label">프로필 사진</label>

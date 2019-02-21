@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<form id="frm" action="${pageContextPath.request.contextPath }/SelectLangController" method="get">
+<form id="frm" action="${cp }/SelectLangController" method="get">
 	<select id="langSelect" name="lang">
 	   <option value="ko" > 한국어 </option>
 	   <option value="ja" >日本言</option>

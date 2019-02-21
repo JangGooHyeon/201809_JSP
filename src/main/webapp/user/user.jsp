@@ -21,7 +21,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<%=request.getContextPath()%>/css/dashboard.css" rel="stylesheet">
+    <link href="${cp }/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body>
@@ -30,17 +30,17 @@
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 		<h1 class="page-header">사용자 정보 조회</h1>
 		
-		<form id="frm" class="form-horizontal" role="form" action="${pageContextPath.request.contextPath }/userModifyForm" method="get">
+		<form id="frm" class="form-horizontal" role="form" action="${cp }/userModifyForm" method="get">
 		
 			<% UserVo user = (UserVo)request.getAttribute("userVo"); %>
 			
 			<div class="form-group">
 				<label for="userNm" class="col-sm-3 control-label">프로필 사진</label>
 				<div class="col-sm-9">
-					<img src="${pageContextPath.request.contextPath }/profileImg?userId=${userVo.userId }">
+					<img src="${cp }/profileImg?userId=${userVo.userId }">
 					
 					<%-- <c:choose>
-						<c:when test="${userVo.fileName != null }"><img src="${pageContextPath.request.contextPath }/upload/${userVo.fileName }"></c:when>
+						<c:when test="${userVo.fileName != null }"><img src="${cp }/upload/${userVo.fileName }"></c:when>
 						<c:when test="${userVo.fileName == null }"><img src="/upload/no_image.jpg"></c:when>
 					</c:choose> --%>
 				</div>

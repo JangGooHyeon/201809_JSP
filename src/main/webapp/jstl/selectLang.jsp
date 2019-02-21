@@ -25,7 +25,7 @@
    pageContext.setAttribute("lang", lang);
 %>
 
-<form id="frm" action="${pageContext.request.contextPath}/SelectLangController">
+<form id="frm" action="${cp}/SelectLangController">
    <select id="langselect" name="lang">
       <option value="ko" <c:if test="${lang =='ko'}">selected</c:if> >한국어</option>
       <option value="ja" <c:if test="${lang =='ja'}">selected</c:if> >日本言</option>
