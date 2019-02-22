@@ -3,7 +3,14 @@ package kr.or.ddit.user.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class UserVo {
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class UserVo implements HttpSessionBindingListener {
 	private String userId;			//사용자 아이디
 	private String pass;			//사용자 비밀번호
 	private String userNm;			//사용자 이름
@@ -14,6 +21,8 @@ public class UserVo {
 	private String fileName;		//파일명
 	private String realFileName;	//배포경로
 	private Date   reg_dt;			//등록일시
+
+	private Logger logger = LoggerFactory.getLogger(UserVo.class);
 	
 	public String getReg_dt_fmt(){
 		//reg_dt값을 yyyy-mm-dd형태로 포맷팅
@@ -88,6 +97,20 @@ public class UserVo {
 				+ userNm + ", alias=" + alias + ", addr1=" + addr1 + ", addr2="
 				+ addr2 + ", zipcode=" + zipcode + ", fileName=" + fileName
 				+ ", realFileName=" + realFileName + ", reg_dt=" + reg_dt + "]";
+	}
+
+
+	@Override
+	public void valueBound(HttpSessionBindingEvent event) {
+		HttpSession session = event.getSession();
+		logger.debug("userVo valueBound : {}", session.getId());
+	}
+
+
+	@Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
+		HttpSession session = event.getSession();
+		logger.debug("userVo valueUnBound : {}", session.getId());
 	}
 	
 }
