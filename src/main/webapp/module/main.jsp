@@ -2,6 +2,6 @@
     pageEncoding="UTF-8"%>
     
  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	<h1 class="page-header">Dashboard555</h1>
-		main.jsp
+	<h1 class="page-header">Dashboard - main</h1>
+		main.jsp -- 수정되었다리
 </div>
